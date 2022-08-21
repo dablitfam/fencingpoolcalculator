@@ -1,0 +1,52 @@
+print("DISCLAIMER: If your tournament has less than 23 people, this calculator might not work.")
+num_people = int(input("How many people are competing in this tournament? "))
+
+remainder = int(str(num_people)) % 7
+groups_of_7 = 0
+groups_of_6 = 0
+
+if remainder == 0:
+    groups_of_7 = int(str(num_people)) / 7
+else:
+    groups_of_6 = 7 - remainder
+    groups_of_7 = (int(str(num_people)) - groups_of_6 * 6) / 7
+if groups_of_6 == 0:
+    print("There will be " + str(int(groups_of_7)) + " groups of 7  people.")
+else:
+    print("There will be " + str(int(groups_of_7)) + " groups of 7  people, and " + str(
+        int(groups_of_6)) + " groups of 6 people.")
+
+P = int(groups_of_7) + int(groups_of_6)
+seed = 1
+your_seed = int(input("What is your preliminary seed? "))
+
+pools_to_seeds = {}
+seed_to_pool = {}
+
+while seed <= num_people:
+    for i in range(int(P)):
+        if seed > num_people:
+            break
+        if i + 1 not in pools_to_seeds:
+            pools_to_seeds[i + 1] = [seed]
+        else:
+            existing_seeds = pools_to_seeds[i + 1]
+            existing_seeds.append(seed)
+            pools_to_seeds[i + 1] = existing_seeds
+        seed_to_pool[seed] = i + 1
+        seed += 1
+    for i in range(int(P)):
+        if seed > num_people:
+            break
+        existing_seeds = pools_to_seeds[P - i]
+        existing_seeds.append(seed)
+        pools_to_seeds[P - i] = existing_seeds
+        seed_to_pool[seed] = P - i
+        seed += 1
+
+# print(pools_to_seeds)
+# print(seed_to_pool)
+your_pool = seed_to_pool[your_seed]
+print(f'Your pool is pool # {your_pool}')
+other_people = pools_to_seeds[your_pool]
+print(f'The seeds in this pool are {other_people}')
