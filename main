@@ -50,3 +50,4 @@ your_pool = seed_to_pool[your_seed]
 print(f'Your pool is pool # {your_pool}')
 other_people = pools_to_seeds[your_pool]
 print(f'The seeds in this pool are {other_people}')
+MainApp().run()
